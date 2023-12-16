@@ -1,0 +1,62 @@
+﻿@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index">Адміністратор</a>
+    </div>
+}
+
+    <div>
+        <div>
+            <div id="EditTables">
+                Редагування таблиць БД
+                </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="Patients">Пацієнти</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="Doctors">Лікарі</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="Appointments">Призначення</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="MedicalConditions">Медичні показання</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="Medications">Ліки</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="PatientsParameters">Параметри Пацієнтів</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="Parameters">Параметри</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="Norms">Норми</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="Users">Користувачі</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="Roles">Ролі</a>
+            </div>
+
+        </div>
+
+        <br />
+
+        <div>
+            <div id="Register">
+                Реєстрація
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="RegisterPatient">Зареєструвати пацієнта</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Administrator" asp-action="RegisterDoctor">Зареєструвати лікаря</a>
+            </div>
+
+        </div>
+
+    </div>

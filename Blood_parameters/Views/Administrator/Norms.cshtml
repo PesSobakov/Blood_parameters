@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Table " + ViewBag.Title;
+}
+@model Blood_parameters.Models.NormTable
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index">Адміністратор</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index" asp-fragment="EditTables">Редагування таблиць БД</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Norms">Норми</a>
+    </div>
+}
+
+@section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+    <div>
+        <div>
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        <table class="width100">
+            <tr>
+                <td>
+                    @using (Html.BeginForm("NormsAdd", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>ID параметру:</td><td>@Html.TextBoxFor(x => x.add.ParameterId)</td></tr>
+                            <tr><td>Стать:</td><td>@Html.TextBoxFor(x => x.add.Gender)</td></tr>
+                            <tr><td>Мінімальне значення:</td><td>@Html.TextBoxFor(x => x.add.MinValue)</td></tr>
+                            <tr><td>Максимальне значення:</td><td>@Html.TextBoxFor(x => x.add.MaxValue)</td></tr>
+                        </table>
+                        <input type="submit" value="Додати" />
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("NormsUpdate", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Де ID:</td><td>@Html.TextBoxFor(x => x.update.Id)</td></tr>
+                            <tr><td>ID параметру:</td><td>@Html.TextBoxFor(x => x.update.ParameterId)</td></tr>
+                            <tr><td>Стать:</td><td>@Html.TextBoxFor(x => x.update.Gender)</td></tr>
+                            <tr><td>Мінімальне значення:</td><td>@Html.TextBoxFor(x => x.update.MinValue)</td></tr>
+                            <tr><td>Максимальне значення:</td><td>@Html.TextBoxFor(x => x.update.MaxValue)</td></tr>
+                        </table>
+                        <input type="submit" value="Оновити" />
+                    }
+                </td>
+            </tr>
+            <tr><td><br /></td></tr>
+            <tr>
+                <td>
+                    @using (Html.BeginForm("NormsDelete", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Видалити запис:</td><td>@Html.TextBoxFor(x => x.id) </td></tr>
+                        </table>
+                        <input type="submit" value="Видалити запис" />
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("NormsFillUpdate", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>ID:</td><td>@Html.TextBoxFor(x => x.fillUpdate)</td></tr>
+                        </table>
+                        <input type="submit" value="Заповнити поля оновлення" />
+                    }
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+</div>
+
+
+@section Scripts {
+    @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+}

@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+@model Blood_parameters.Models.MedicationsTable
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index" asp-fragment="ManagePatients">Управління профілем пацієнта</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Medications">Ліки</a>
+    </div>
+}
+
+    @section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+<div>
+    <button id="ViewButton">Переглянути</button>
+    <button id="AddButton">Додати</button>
+    <button id="DeleteButton">Видалити</button>
+
+
+    <div id="View">
+            @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+        </div>
+
+    <div id="Add">
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        @using (Html.BeginForm("MedicationsAdd", "Doctor", FormMethod.Post))
+        {
+            <table>
+                <tr><td>Тривалість прийому:</td><td>@Html.TextBoxFor(x => x.add.ReceptionDuration)</td></tr>
+                <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.add.PatientId)</td></tr>
+                <tr><td>Назва лікарського засобу:</td><td>@Html.TextBoxFor(x => x.add.MedicationName)</td></tr>
+                <tr><td>Дозування:</td><td>@Html.TextBoxFor(x => x.add.MedicationDosage)</td></tr>
+                <tr><td>Частота прийому:</td><td>@Html.TextBoxFor(x => x.add.MedicationFrequency)</td></tr>
+                <tr><td>ID лікаря:</td><td>@Html.TextBoxFor(x => x.add.DoctorId)</td></tr>
+            </table>
+            <input type="submit" value="Додати" />
+        }
+
+    </div>
+
+    <div id="Delete">
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        @using (Html.BeginForm("MedicationsDelete", "Doctor", FormMethod.Post))
+        {
+            <table>
+                <tr><td>ID:</td><td>@Html.TextBoxFor(x => x.id)</td></tr>
+            </table>
+        <input type="submit" value="Видалити" />
+        }
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script>
+        var headerCells = document.getElementById("table").children[0].children[0].children;
+        for (var i = 0; i @Html.Raw("<")headerCells.length; i++) {
+            if (headerCells[i].getAttribute("data-field").includes("ID")) {
+                headerCells[i].setAttribute("data-filter-strict-search", true);
+            }
+        }
+    </script>
+
+    @if (ViewBag.Id != null)
+    {
+        <script>
+            var headerCells = document.getElementById("table").children[0].children[0].children;
+            var idHeader;
+            for (var i = 0; i @Html.Raw("<")headerCells.length; i++) {
+                if (headerCells[i].getAttribute("data-field") == "ID пацієнта") {
+                    idHeader = headerCells[i];
+                }
+            }
+            idHeader.setAttribute("data-filter-default", "@ViewBag.Id");
+        </script>
+    }
+    @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+
+    <script>
+        document.getElementById("ViewButton").onclick = () =>
+        {
+            document.getElementById("View").style.display = "block"
+            document.getElementById("Add").style.display = "none"
+            document.getElementById("Delete").style.display = "none"
+        }
+        document.getElementById("AddButton").onclick = () =>
+        {
+            document.getElementById("View").style.display = "none"
+            document.getElementById("Add").style.display = "block"
+            document.getElementById("Delete").style.display = "none"
+        }
+        document.getElementById("DeleteButton").onclick = () =>
+        {
+            document.getElementById("View").style.display = "none"
+            document.getElementById("Add").style.display = "none"
+            document.getElementById("Delete").style.display = "block"
+        }
+
+        @if (ViewBag.OpenTab == 0 || ViewBag.OpenTab == null)
+        {
+            <text>document.getElementById("ViewButton").click(); </text>
+        }
+        else if (ViewBag.OpenTab == 1)
+        {
+            <text>document.getElementById("AddButton").click(); </text>
+        }
+        else if (ViewBag.OpenTab == 2)
+        {
+            <text>document.getElementById("DeleteButton").click(); </text>
+        }
+    </script>
+}

@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+@model Blood_parameters.Models.RegisterPatient
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index">Адміністратор</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index" asp-fragment="Register">Реєстрація</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="RegisterPatient">Зареєструвати пацієнта</a>
+    </div>
+}
+
+<link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+
+<div>
+    <div>
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        @using (Html.BeginForm("RegisterPatientPost", "Administrator", FormMethod.Post))
+        {
+            <table>
+                <tr><td>Прізвище:</td><td>@Html.TextBoxFor(x => x.patient.Surname)</td></tr>
+                <tr><td>Ім'я:</td><td>@Html.TextBoxFor(x => x.patient.Name)</td></tr>
+                <tr><td>По батькові:</td><td>@Html.TextBoxFor(x => x.patient.Patronymic)</td></tr>
+                <tr><td>Дата народження:</td><td>@Html.TextBoxFor(x => x.patient.Dob)</td></tr>
+                <tr><td>Стать:</td><td>@Html.TextBoxFor(x => x.patient.Gender)</td></tr>
+                <tr><td>Телефон:</td><td>@Html.TextBoxFor(x => x.patient.Phone)</td></tr>
+                <tr><td>Адрес:</td><td>@Html.TextBoxFor(x => x.patient.Address)</td></tr>
+                <tr><td>Прізвище контактної особи:</td><td>@Html.TextBoxFor(x => x.patient.EmergencyContactSurname)</td></tr>
+                <tr><td>Ім'я контактної особи:</td><td>@Html.TextBoxFor(x => x.patient.EmergencyContactName)</td></tr>
+                <tr><td>По батькові контактної особи:</td><td>@Html.TextBoxFor(x => x.patient.EmergencyContactPatronymic)</td></tr>
+                <tr><td>Телефон контактної особи:</td><td>@Html.TextBoxFor(x => x.patient.EmergencyContactPhone)</td></tr>
+                <tr><td>ID лікаря:</td><td>@Html.TextBoxFor(x => x.patient.DoctorId)</td></tr>
+                <tr><td>Email:</td><td>@Html.TextBoxFor(x => x.user.Email)</td></tr>
+                <tr><td>Пароль:</td><td>@Html.TextBoxFor(x => x.user.Password)</td></tr>
+            </table>
+            <br />
+            <input type="submit" value="Зареєструвати" />
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/bootstrap-table/bootstrap-table.min.js"></script>
+
+    <script>
+        $(function ()
+        {
+            $('#table').bootstrapTable()
+        })
+    </script>
+
+}

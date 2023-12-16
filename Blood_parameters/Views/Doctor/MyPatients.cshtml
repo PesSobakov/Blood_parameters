@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Table " + ViewBag.Title;
+}
+@model Blood_parameters.Models.PatientTable
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index" asp-fragment="ManagePatients">Управління профілем пацієнта</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="MyPatients">Мої пацієнти</a>
+    </div>
+}
+
+
+    <div>
+ @if (ViewBag.FatalError != null)
+    {
+        <div>
+            @ViewBag.FatalError
+        </div>
+    }
+    else
+    {
+        @foreach (Patient patient in ViewBag.Patients)
+        {
+            <div class="border5 pad20">
+                <div class="flex-left">
+                    <div>
+                        @switch (patient.Gender)
+                        {
+                            case "ч":
+                                <img src="~/images/faces/мельчик с откусаной шеей.png" width="150" height="150" />
+                                break;
+                            case "ж":
+                                <img src="~/images/faces/девачка.png" width="150" height="150" />
+                                break;
+                            default:
+                                <img src="~/images/faces/особа серая.png" width="90" height="90" />
+                                break;
+                        }
+                    </div>
+                    <div class="flex-top">
+                        <div class="flex-left">
+                            <div class="pad20">
+                                <div class="grey">Прізвище</div>
+                                <div> @patient.Surname </div>
+                            </div>
+                            <div class="pad20">
+                                <div class="grey">Ім'я</div>
+                                <div> @patient.Name </div>
+                            </div>
+                            <div class="pad20">
+                                <div class="grey">По батькові</div>
+                                <div> @patient.Patronymic </div>
+                            </div>
+                        </div>
+                        <div class="flex-left">
+                            <div class="pad20">
+                                <div class="grey">Стать</div>
+                                <div> @patient.Gender </div>
+                            </div>
+                            <div class="pad20">
+                                <div class="grey">Дата народження</div>
+                                <div> @patient.Dob?.ToShortDateString() </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-top">
+                        <div><a class="btn btn-secondary" asp-area="" asp-controller="Doctor" asp-action="AddAnalysisByid" asp-route-id="@patient.Id">Додати аналіз</a></div>
+                        <div><a class="btn btn-secondary" asp-area="" asp-controller="Doctor" asp-action="ParametersByid" asp-route-id="@patient.Id">Параметри</a></div>
+                        <div><a class="btn btn-secondary" asp-area="" asp-controller="Doctor" asp-action="MedicationsByid" asp-route-id="@patient.Id">Ліки</a></div>
+                        <div><a class="btn btn-secondary" asp-area="" asp-controller="Doctor" asp-action="MedicalConditionsByid" asp-route-id="@patient.Id">Медичні показання</a></div>
+                        <div><a class="btn btn-secondary" asp-area="" asp-controller="Doctor" asp-action="AppointmentsByid" asp-route-id="@patient.Id">Призначення</a></div>
+                    </div>
+                </div>
+
+                <div class="big-left-border width100 flex-left">
+                    <div class="pad20 width40">Контактна інформація</div>
+                    <div class="pad10 left">
+                        <div class="grey">Телефон</div>
+                        <div> @patient.Phone </div>
+                    </div>
+                    <div class="pad10 left">
+                        <div class="grey">Адреса</div>
+                        <div> @patient.Address </div>
+                    </div>
+                </div>
+              
+                <div class="big-left-border width100 flex-left">
+                    <div class="pad10 width40"><img src="~/images/faces/особа серая.png" width="50" height="50" /><span>Контактна особа</span></div>
+                    <div class="pad10 left">
+                        <div class="grey">Прізвище</div>
+                        <div> @patient.EmergencyContactSurname </div>
+                    </div>
+                    <div class="pad10 left">
+                        <div class="grey">Ім'я</div>
+                        <div> @patient.EmergencyContactName </div>
+                    </div>
+                    <div class="pad10 left">
+                        <div class="grey">По батькові</div>
+                        <div> @patient.EmergencyContactPatronymic </div>
+                    </div>
+                    <div class="pad10 left">
+                        <div class="grey">Телефон</div>
+                        <div> @patient.EmergencyContactPhone </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    </div>
+
+
+    @section Scripts {
+
+}

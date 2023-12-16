@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+@model Int32Container
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+        <span>></span>
+      <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index" asp-fragment="ClusteringHome">Кластеризація</a>
+          <span>></span>
+        @switch ((string)ViewBag.Controller)
+        {
+            case "ClusteringGeneralBloodTestK":
+                <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="ClusteringGeneralBloodTest">Кластеризація за загальним аналізом крові</a>
+                break;
+            case "ClusteringBloodGlucoseAndCholesterolK":
+                <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="ClusteringBloodGlucoseAndCholesterol">Кластеризація за рівнем глюкози та холестерину</a>
+                break;
+            case "ClusteringBiochemicalBloodAnalysisK":
+                <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="ClusteringBiochemicalBloodAnalysis">Кластеризація за біохімічним аналізом крові</a>
+                break;
+            case "ClusteringBloodPressureK":
+                <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="ClusteringBloodPressure">Кластеризація за артеріальним тиском</a>
+                break;
+            default:
+                <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="ClusteringGeneralBloodTest">Кластеризація за загальним аналізом крові</a>
+                break;
+        }
+    </div>
+}
+
+    @section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+    <div>
+        @Html.ValidationSummary()
+    @if (ViewBag.Error != null)
+    {
+        <div> @ViewBag.Error </div>
+    }
+
+    @using (Html.BeginForm((string)ViewBag.Controller, "Doctor", FormMethod.Post))
+    {
+        <table>
+            <tr><td>Кількість кластерів:</td><td>@Html.TextBoxFor(x => x.id)</td></tr>
+        </table>
+        <input type="submit" value="Кластеризувати" />
+    }
+
+    @if (ViewBag.FatalError == null)
+    {
+        @*<canvas id="lineChart" width="600" height="600"></canvas>*@
+
+        <div>
+            @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    @if (ViewBag.FatalError == null)
+    {
+        @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+        <script src="~/lib/chart/chart.umd.min.js"></script>
+        <script>
+           @*
+               var lineCanvas = document.getElementById("lineChart");
+
+            @{
+
+                List<string> profileData = new List<string>();
+                int profileDataIndex = 1;
+                foreach (var item in ViewBag.Centroids)
+                {
+                    string currentDataset = "{label: \"кластер " + profileDataIndex++ + "\", data: [";
+                    List<string> temp = new List<string>();
+                    @foreach (var item2 in item)
+                    {
+                        temp.Add(item2.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    }
+                    currentDataset += string.Join(",", temp) + "]}";
+                    profileData.Add(currentDataset);
+                }
+            }
+
+                                                                                    var ProfileData = {
+                labels: ["@Html.Raw(string.Join("\",\"", ViewBag.CentroidsLabels))"],
+                datasets: [@Html.Raw(string.Join(",", profileData))]
+            };
+
+            var lineChart = new Chart(lineCanvas, {
+                type: 'line',
+                data: ProfileData,
+                options:
+                {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins:
+                    {
+                        title:
+                        {
+                            display: true,
+                            text: 'Профілі кластерів'
+                        }
+                    }
+                }
+            });
+            *@
+        </script>
+    }
+    }

@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="OurDoctors">Наші лікарі</a>
+    </div>
+}
+
+@using Blood_parameters.Models.Database;
+@using Blood_parameters.Models;
+<link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+<link href="~/lib/bootstrap-table/extensions/sticky-header/bootstrap-table-sticky-header.min.css" rel="stylesheet" />
+
+<div>
+    @if (ViewBag.FatalError != null)
+    {
+        <div>
+            @ViewBag.FatalError
+        </div>
+    }
+    else
+    {
+        foreach (Doctor item in ViewBag.Doctors)
+        {
+            <div class="flex-left pad10">
+                <div>
+                    <img src="@Image.ToSrc(item.Photo)" width="200" height="200" alt="Photo" />
+                </div>
+                <div class="pad10" style="display:block">
+                    <div> @item.Surname @item.Name @item.Patronymic </div>
+                    <div class="blue"> @item.Qualifications </div>
+                    <div class="divider"></div>
+                    <div> Досвід: @item.YearsOfExperience роки </div>
+                    <div> Посада: @item.CurrentPosition </div>
+                    <div> Освіта: @item.Education </div>
+                    <div> Код лікаря: @item.RecordNumber </div>
+                </div>
+
+            </div>
+        }
+    }
+</div>
+
+
+@section Scripts {
+
+}

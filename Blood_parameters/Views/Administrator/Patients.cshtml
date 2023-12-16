@@ -1,0 +1,180 @@
+﻿@{
+    ViewData["Title"] = "Table " + ViewBag.Title;
+}
+@model Blood_parameters.Models.PatientTable
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index">Адміністратор</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index" asp-fragment="EditTables">Редагування таблиць БД</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Patients">Пацієнти</a>
+    </div>
+}
+
+
+
+    @section Styles {
+       @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+    }
+
+    @*
+    <link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-table/extensions/sticky-header/bootstrap-table-sticky-header.min.css" rel="stylesheet" />
+    *@
+    <div>
+        <div>
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        <table class="width100">
+            <tr>
+                <td>
+                    @using (Html.BeginForm("PatientsAdd", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Прізвище:</td><td>@Html.TextBoxFor(x => x.add.Surname)</td></tr>
+                            <tr><td>Ім'я:</td><td>@Html.TextBoxFor(x => x.add.Name)</td></tr>
+                            <tr><td>По батькові:</td><td>@Html.TextBoxFor(x => x.add.Patronymic)</td></tr>
+                            <tr><td>Дата народження:</td><td>@Html.TextBoxFor(x => x.add.Dob)</td></tr>
+                            <tr><td>Стать:</td><td>@Html.TextBoxFor(x => x.add.Gender)</td></tr>
+                            <tr><td>Телефон:</td><td>@Html.TextBoxFor(x => x.add.Phone)</td></tr>
+                            <tr><td>Адрес:</td><td>@Html.TextBoxFor(x => x.add.Address)</td></tr>
+                            <tr><td>Прізвище контактної особи:</td><td>@Html.TextBoxFor(x => x.add.EmergencyContactSurname)</td></tr>
+                            <tr><td>Ім'я контактної особи:</td><td>@Html.TextBoxFor(x => x.add.EmergencyContactName)</td></tr>
+                            <tr><td>По батькові контактної особи:</td><td>@Html.TextBoxFor(x => x.add.EmergencyContactPatronymic)</td></tr>
+                            <tr><td>Телефон контактної особи:</td><td>@Html.TextBoxFor(x => x.add.EmergencyContactPhone)</td></tr>
+                            <tr><td>ID лікаря:</td><td>@Html.TextBoxFor(x => x.add.DoctorId)</td></tr>
+                        </table>
+                        <input type="submit" value="Додати" />
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("PatientsUpdate", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Де ID:</td><td>@Html.TextBoxFor(x => x.update.Id)</td></tr>
+                            <tr><td>Прізвище:</td><td>@Html.TextBoxFor(x => x.update.Surname)</td></tr>
+                            <tr><td>Ім'я:</td><td>@Html.TextBoxFor(x => x.update.Name)</td></tr>
+                            <tr><td>По батькові:</td><td>@Html.TextBoxFor(x => x.update.Patronymic)</td></tr>
+                            <tr><td>Дата народження:</td><td>@Html.TextBoxFor(x => x.update.Dob)</td></tr>
+                            <tr><td>Стать:</td><td>@Html.TextBoxFor(x => x.update.Gender)</td></tr>
+                            <tr><td>Телефон:</td><td>@Html.TextBoxFor(x => x.update.Phone)</td></tr>
+                            <tr><td>Адрес:</td><td>@Html.TextBoxFor(x => x.update.Address)</td></tr>
+                            <tr><td>Прізвище контактної особи:</td><td>@Html.TextBoxFor(x => x.update.EmergencyContactSurname)</td></tr>
+                            <tr><td>Ім'я контактної особи:</td><td>@Html.TextBoxFor(x => x.update.EmergencyContactName)</td></tr>
+                            <tr><td>По батькові контактної особи:</td><td>@Html.TextBoxFor(x => x.update.EmergencyContactPatronymic)</td></tr>
+                            <tr><td>Телефон контактної особи:</td><td>@Html.TextBoxFor(x => x.update.EmergencyContactPhone)</td></tr>
+                            <tr><td>ID лікаря:</td><td>@Html.TextBoxFor(x => x.update.DoctorId)</td></tr>
+                        </table>
+                        <input type="submit" value="Оновити" />
+                    }
+                </td>
+            </tr>
+            <tr><td><br /></td></tr>
+            <tr>
+                <td>
+                    @using (Html.BeginForm("PatientsDelete", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Видалити запис:</td><td>@Html.TextBoxFor(x => x.id) </td></tr>
+                        </table>
+                        <input type="submit" value="Видалити запис" />
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("PatientsFillUpdate", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>ID:</td><td>@Html.TextBoxFor(x => x.fillUpdate)</td></tr>
+                        </table>
+                        <input type="submit" value="Заповнити поля оновлення" />
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+    @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+    @*
+    <table id="table"
+    data-show-columns="true"
+    data-filter-control="true"
+    data-sticky-header="true"
+    data-toolbar="#toolbar"
+    data-show-search-clear-button="true">
+    <thead>
+    <tr>
+    @foreach (var item in ViewBag.Head)
+    {
+    <th data-field="@item" data-filter-control="input" data-sortable="true">
+    @item
+    </th>
+    }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in ViewBag.Table)
+    {
+
+    <tr>
+    @foreach (var item2 in item)
+    {
+    <td>
+    @item2
+    </td>
+    }
+    </tr>
+    }
+    </tbody>
+    </table>
+    <div id="toolbar">
+    <button class="btn btn-secondary" id="hide-columns">
+    Приховати всі стовпці
+    </button>
+    <button class="btn btn-secondary" id="show-columns">
+    Показати всі стовпці
+    </button>
+    </div>
+    *@
+</div>
+
+
+@section Scripts {
+    @*<script src="~/lib/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="~/lib/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <script src="~/lib/bootstrap-table/extensions/multiple-sort/bootstrap-table-multiple-sort.min.js"></script>
+    <script src="~/lib/bootstrap-table/extensions/sticky-header/bootstrap-table-sticky-header.min.js"></script>
+
+    <script>
+        $(function ()
+        {
+            $('#table').bootstrapTable()
+        })
+        $(function ()
+        {
+            $('#hide-columns').on('click', function (event)
+            {
+                event.preventDefault();
+        @foreach (var item in ViewBag.Head)
+        {
+            <text>$('#table').bootstrapTable('hideColumn', '@Html.Raw(item)'); </text>
+        };
+            });
+            $('#show-columns').on('click', function (event)
+            {
+                event.preventDefault();
+        @foreach (var item in ViewBag.Head)
+        {
+            <text>$('#table').bootstrapTable('showColumn', '@Html.Raw(item)'); </text>
+        };
+            });
+        })
+    </script>*@
+       @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+    }

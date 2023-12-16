@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Table " + ViewBag.Title;
+}
+@model Blood_parameters.Models.PatientTable
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+            <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index" asp-fragment="ManagePatients">Управління профілем пацієнта</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Parameters">Параметри</a>
+    </div>
+}
+
+    @section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+    <div>
+        @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+    </div>
+
+
+    @section Scripts {
+    <script>
+        var headerCells = document.getElementById("table").children[0].children[0].children;
+        for (var i = 0; i @Html.Raw("<")headerCells.length; i++) {
+            if (headerCells[i].getAttribute("data-field").includes("ID")) {
+                headerCells[i].setAttribute("data-filter-strict-search", true);
+            }
+        }
+    </script>
+    @if (ViewBag.Id != null)
+    {
+        <script>
+            var headerCells = document.getElementById("table").children[0].children[0].children;
+            var idHeader;
+            for (var i = 0; i @Html.Raw("<")headerCells.length; i++) {
+                if (headerCells[i].getAttribute("data-field") == "ID пацієнта") {
+                    idHeader = headerCells[i];
+                }
+            }
+            idHeader.setAttribute("data-filter-default", "@ViewBag.Id");
+        </script>
+    }
+    @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+}

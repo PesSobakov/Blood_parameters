@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "Table " + ViewBag.Title;
+}
+@model Blood_parameters.Models.DoctorTable
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index">Адміністратор</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index" asp-fragment="EditTables">Редагування таблиць БД</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Doctors">Лікарі</a>
+    </div>
+}
+
+    @section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+    <div>
+        <div>
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        <table class="width100">
+            <tr>
+                <td>
+                    @using (Html.BeginForm("DoctorsAdd", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Досвід:</td><td>@Html.TextBoxFor(x => x.add.YearsOfExperience)</td></tr>
+                            <tr><td>Код лікаря:</td><td>@Html.TextBoxFor(x => x.add.RecordNumber)</td></tr>
+                            <tr><td>Прізвище:</td><td>@Html.TextBoxFor(x => x.add.Surname)</td></tr>
+                            <tr><td>Ім'я:</td><td>@Html.TextBoxFor(x => x.add.Name)</td></tr>
+                            <tr><td>По батькові:</td><td>@Html.TextBoxFor(x => x.add.Patronymic)</td></tr>
+                            <tr><td>Кваліфікація:</td><td>@Html.TextBoxFor(x => x.add.Qualifications)</td></tr>
+                            <tr><td>Посада:</td><td>@Html.TextBoxFor(x => x.add.CurrentPosition)</td></tr>
+                            <tr><td>Освіта:</td><td>@Html.TextBoxFor(x => x.add.Education)</td></tr>
+                            <tr><td>Телефон:</td><td>@Html.TextBoxFor(x => x.add.ContactPhone)</td></tr>
+                        </table>
+                        <input type="submit" value="Додати" />
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("DoctorsUpdate", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Де ID:</td><td>@Html.TextBoxFor(x => x.update.Id)</td></tr>
+                            <tr><td>Досвід:</td><td>@Html.TextBoxFor(x => x.update.YearsOfExperience)</td></tr>
+                            <tr><td>Код лікаря:</td><td>@Html.TextBoxFor(x => x.update.RecordNumber)</td></tr>
+                            <tr><td>Прізвище:</td><td>@Html.TextBoxFor(x => x.update.Surname)</td></tr>
+                            <tr><td>Ім'я:</td><td>@Html.TextBoxFor(x => x.update.Name)</td></tr>
+                            <tr><td>По батькові:</td><td>@Html.TextBoxFor(x => x.update.Patronymic)</td></tr>
+                            <tr><td>Кваліфікація:</td><td>@Html.TextBoxFor(x => x.update.Qualifications)</td></tr>
+                            <tr><td>Посада:</td><td>@Html.TextBoxFor(x => x.update.CurrentPosition)</td></tr>
+                            <tr><td>Освіта:</td><td>@Html.TextBoxFor(x => x.update.Education)</td></tr>
+                            <tr><td>Телефон:</td><td>@Html.TextBoxFor(x => x.update.ContactPhone)</td></tr>
+                        </table>
+                        <input type="submit" value="Оновити" />
+                    }
+                </td>
+            </tr>
+            <tr><td><br /></td></tr>
+            <tr>
+                <td>
+                    @using (Html.BeginForm("DoctorsDelete", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Видалити запис:</td><td>@Html.TextBoxFor(x => x.id) </td></tr>
+                        </table>
+                        <input type="submit" value="Видалити запис" />
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("DoctorsFillUpdate", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>ID:</td><td>@Html.TextBoxFor(x => x.fillUpdate)</td></tr>
+                        </table>
+                        <input type="submit" value="Заповнити поля оновлення" />
+                    }
+                </td>
+            </tr>
+            <tr><td><br /></td></tr>
+            <tr>
+                <td></td>
+                <td>
+                    @using (Html.BeginForm("DoctorPictureUpdate", "Administrator", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <table>
+                            <tr><td>ID:</td><td>@Html.TextBoxFor(x => x.pictureId)</td></tr>
+                        </table>
+                        <label>
+                            <input type="file" asp-for="picture" id="file" hidden>
+                            <button type="button" id="btn"> Виберіть файл фото </button>
+                            <span id="span">  </span>
+                        </label>
+                        //<button type="button" onclick="document.getElementById('picture').click();">Виберіть файл фото</button>
+                        //<input asp-for="picture" type="file" style="display:none">
+                        <input type="submit" value="Оновити" />
+                    }
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+</div>
+
+@section Scripts {
+    @Html.Raw(MyHtmlHelper.InputFileScripts())
+
+    @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+}
