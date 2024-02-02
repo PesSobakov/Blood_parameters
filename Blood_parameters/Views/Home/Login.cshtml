@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+
+}
+@model Blood_parameters.Models.LoginPassword
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Login">Авторизація</a>
+    </div>
+}
+
+    @section Styles {
+    <style>
+
+        html {
+            min-height: 100%; /* Look, it's not fixed anymore! */
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            flex-grow: 1;
+        }
+
+
+        body {
+            background: rgb(0,197,227);
+            background: linear-gradient(15deg, rgba(0,197,227,1) 0%, rgba(155,52,176,1) 28%, rgba(123,43,173,1) 100%);
+            display: flex;
+            flex-direction: column;
+            align-content: stretch;
+            margin: 0px;
+        }
+
+        input[type=text] {
+            border: none;
+            background-color: transparent;
+            color: white;
+        }
+
+        input:-webkit-autofill, input:-webkit-autofill:focus {
+            box-shadow: 0 0 0 1000px rgb(140 80 160) inset;
+            -webkit-text-fill-color: white;
+        }
+
+        div.container {
+            flex: 1;
+            display: inline-grid;
+        }
+
+        main[role=main] {
+            height: 100%;
+        }
+    </style>
+}
+
+
+    <div class="flex-top-center height100">
+        <div class="flex-top-center login-background" style="margin: auto;">
+            <img src="~/images/3.3.png" width="100" height="100" />
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            @Html.ValidationSummary()
+
+            <table>
+                <tr class="underscore-white">
+                    <td><img src="~/images/emailпрозрач больше половины.png" width="15" /></td>
+                    <td class="pad10">@Html.TextBoxFor(x => x.login, new { placeholder="Логін"})</td>
+                </tr>
+                <tr class="underscore-white">
+                    <td><img src="~/images/замочек.png" width="15" /></td>
+                    <td class="pad10">@Html.TextBoxFor(x => x.password, new { placeholder="Пароль"})</td>
+                </tr>
+            </table>
+            <div class="pad20">
+                <input type="submit" value="Авторизуватися" class="width100 login-button" />
+            </div>
+        }
+
+        @{
+            if (ViewBag.Error == null && TempData.ContainsKey("Error"))
+            {
+                ViewBag.Error = TempData["Error"];
+            }
+            if (ViewBag.Success == null && TempData.ContainsKey("Success"))
+            {
+                ViewBag.Success = TempData["Success"];
+            }
+        }
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="white">@ViewBag.Error</div>
+        }
+        @if (ViewBag.Success != null)
+        {
+            <div class="white">@ViewBag.Success</div>
+        }
+    </div>
+</div>

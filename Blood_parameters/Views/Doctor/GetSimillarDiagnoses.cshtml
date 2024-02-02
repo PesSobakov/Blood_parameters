@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+@model Int32Container
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="GetSimillarDiagnoses">Пошук схожих діагнозів</a>
+    </div>
+}
+
+    @section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+<div>
+    <div>
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        @using (Html.BeginForm("GetSimillarDiagnoses", "Doctor", FormMethod.Post))
+        {
+            <table>
+                <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.id)</td></tr>
+            </table>
+            <input type="submit" value="Пошук схожих діагнозів" />
+        }
+    </div>
+
+    <div>
+        @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+    </div>
+</div>
+
+@section Scripts {
+    @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+}

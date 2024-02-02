@@ -1,0 +1,209 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+@model Blood_parameters.Models.DoctorAndPicture
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Info">Особиста інформація</a>
+    </div>
+}
+
+@using Blood_parameters.Models;
+@using Blood_parameters.Models.Database;
+
+<link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+
+<div>
+    @if (ViewBag.FatalError != null)
+    {
+        <div>
+            @ViewBag.FatalError
+        </div>
+    }
+    else
+    {
+        <div id="update">
+            <button id="cancelButton">Скасувати</button>
+
+            @if (ViewBag.Error != null)
+            {
+                <div>@ViewBag.Error</div>
+            }
+            @Html.ValidationSummary()
+
+            @using (Html.BeginForm("InfoUpdate", "Doctor", FormMethod.Post))
+            {
+                <table>
+                    @*<tr><td>Досвід:</td><td>@Html.TextBoxFor(x => x.doctor.YearsOfExperience)</td></tr>
+                    <tr><td>Код лікаря:</td><td>@Html.TextBoxFor(x => x.doctor.RecordNumber)</td></tr>*@
+                    <tr><td>Прізвище:</td><td>@Html.TextBoxFor(x => x.doctor.Surname)</td></tr>
+                    @*<tr><td>Ім'я:</td><td>@Html.TextBoxFor(x => x.doctor.Name)</td></tr>
+                    <tr><td>По батькові:</td><td>@Html.TextBoxFor(x => x.doctor.Patronymic)</td></tr>
+                    <tr><td>Кваліфікація:</td><td>@Html.TextBoxFor(x => x.doctor.Qualifications)</td></tr>
+                    <tr><td>Посада:</td><td>@Html.TextBoxFor(x => x.doctor.CurrentPosition)</td></tr>
+                    <tr><td>Освіта:</td><td>@Html.TextBoxFor(x => x.doctor.Education)</td></tr>*@
+                    <tr><td>Номер телефона:</td><td>@Html.TextBoxFor(x => x.doctor.ContactPhone)</td></tr>
+                </table>
+                <input type="submit" value="Оновити" />
+            }
+            <br />
+            @using (Html.BeginForm("PictureUpdate", "Doctor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <label>
+                    <input type="file" asp-for="picture" id="file" hidden>
+                    <button type="button" id="btn"> Виберіть файл фото </button>
+                    <span id="span">  </span>
+                </label>
+                //<button type="button" onclick="document.getElementById('picture').click();">Виберіть файл фото</button>
+                //<input asp-for="picture" type="file" style="display:none">
+                <input type="submit" value="Оновити фото" />
+            }
+        </div>
+
+        <div id="data">
+            <button id="updateButton">Оновити</button>
+
+            <div>
+                <div>Особиста інформація</div>
+
+                @{
+                    Doctor doctor = ViewBag.Doctor;
+                }
+                <div class="flex-left">
+                    <div>
+                        <img src="@Image.ToSrc(doctor.Photo)" width="200" height="200" alt="Photo" />
+                    </div>
+                    <div class="flex-top">
+                        <div class="flex-left">
+                            <div class="pad20">
+                                <div class="grey">Прізвище</div>
+                                <div> @doctor.Surname </div>
+                            </div>
+                            <div class="pad20">
+                                <div class="grey">Ім'я</div>
+                                <div> @doctor.Name </div>
+                            </div>
+                            <div class="pad20">
+                                <div class="grey">По батькові</div>
+                                <div> @doctor.Patronymic </div>
+                            </div>
+                        </div>
+                        <div class="flex-left">
+                            <div class="pad20">
+                                <div class="grey">Кваліфікація</div>
+                                <div> @doctor.Qualifications </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>Робоча інформація</div>
+                <div class="big-left-border width100 flex-left">
+                    <div class="pad20 width40">Досвід</div>
+                    <div class="pad20 left">@doctor.YearsOfExperience років</div>
+                </div>
+                <div class="big-left-border width100 flex-left">
+                    <div class="pad20 width40">Посада</div>
+                    <div class="pad20 left">@doctor.CurrentPosition</div>
+                </div>
+                <div class="big-left-border width100 flex-left">
+                    <div class="pad20 width40">Освіта</div>
+                    <div class="pad20 left">@doctor.Education</div>
+                </div>
+                <div class="big-left-border width100 flex-left">
+                    <div class="pad20 width40">Код лікаря</div>
+                    <div class="pad20 left">@doctor.RecordNumber</div>
+                </div>
+
+                <div>Контактна інформація</div>
+                <div class="big-left-border width100 flex-left">
+                    <div class="pad20 width40">Телефон</div>
+                    <div class="pad20 left">@doctor.ContactPhone</div>
+                </div>
+                <div class="big-left-border width100 flex-left">
+                    <div class="pad20 width40">E-mail</div>
+                    <div class="pad20 left">@ViewBag.Email</div>
+                </div>
+
+                <div>Пацієнти</div>
+                @foreach (Patient patient in doctor.Patients)
+                {
+                    <div class="big-left-border width100 flex-left">
+                        <div class="pad10 width40">
+                            @switch (patient.Gender)
+                            {
+                                case "ч":
+                                    <img src="~/images/faces/мельчик с откусаной шеей.png" width="50" height="50" />
+                                    break;
+                                case "ж":
+                                    <img src="~/images/faces/девачка.png" width="50" height="50" />
+                                    break;
+                                default:
+                                    <img src="~/images/faces/особа серая.png" width="50" height="50" />
+                                    break;
+                            }<span>Пацієнт</span>
+                        </div>
+                        <div class="pad10 left">
+                            <div class="grey">Прізвище</div>
+                            <div> @patient.Surname </div>
+                        </div>
+                        <div class="pad10 left">
+                            <div class="grey">Ім'я</div>
+                            <div> @patient.Name </div>
+                        </div>
+                        <div class="pad10 left">
+                            <div class="grey">По батькові</div>
+                            <div> @patient.Patronymic </div>
+                        </div>
+                        <div class="pad10 left">
+                            <div class="grey">Телефон</div>
+                            <div> @patient.Phone </div>
+                        </div>
+                        @if (patient.Users.Count > 0)
+                        {
+                            <div class="pad10 left">
+                                <div class="grey">E-mail</div>
+                                <div> @patient.Users.First().Email </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+
+        @Html.Raw(MyHtmlHelper.InputFileScripts())
+
+    <script>
+
+        document.getElementById("updateButton").onclick = () =>
+        {
+            document.getElementById("data").style.display = "none"
+            document.getElementById("update").style.display = "block"
+        }
+        document.getElementById("cancelButton").onclick = () =>
+        {
+            document.getElementById("data").style.display = "block"
+            document.getElementById("update").style.display = "none"
+        }
+
+        @if (ViewBag.Update ?? false)
+        {
+            <text>document.getElementById("updateButton").click(); </text>
+        }
+        else
+        {
+            <text>document.getElementById("cancelButton").click(); </text>
+        }
+
+    </script>
+
+    }

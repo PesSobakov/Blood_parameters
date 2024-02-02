@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+@model Blood_parameters.Models.AppointmentsTable
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index" asp-fragment="ManagePatients">Управління профілем пацієнта</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Appointments">Призначення</a>
+    </div>
+}
+
+    @section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+    <div>
+        <button id="ViewButton">Переглянути</button>
+        <button id="AddButton">Додати</button>
+        <button id="DeleteButton">Видалити</button>
+
+
+        <div id="View">
+            @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+        </div>
+
+        <div id="Add">
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        @using (Html.BeginForm("AppointmentsAdd", "Doctor", FormMethod.Post))
+        {
+            <table>
+                <tr><td>Дата прийому:</td><td>@Html.TextBoxFor(x => x.add.TreatmentDate)</td></tr>
+                <tr><td>Час прийому:</td><td>@Html.TextBoxFor(x => x.add.TreatmentTime)</td></tr>
+                <tr><td>Код прийому:</td><td>@Html.TextBoxFor(x => x.add.RecordNumber)</td></tr>
+                <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.add.PatientId)</td></tr>
+                <tr><td>ID лікаря:</td><td>@Html.TextBoxFor(x => x.add.DoctorId)</td></tr>
+                <tr><td>Дата початку лікування:</td><td>@Html.TextBoxFor(x => x.add.StartDate)</td></tr>
+                <tr><td>Дата завершення лікування:</td><td>@Html.TextBoxFor(x => x.add.EndDate)</td></tr>
+                <tr><td>Діагноз:</td><td>@Html.TextBoxFor(x => x.add.Diagnosis)</td></tr>
+                <tr><td>Медичні засоби:</td><td>@Html.TextBoxFor(x => x.add.Treatment)</td></tr>
+                <tr><td>Медичні показання:</td><td>@Html.TextBoxFor(x => x.add.TreatmentAndWorkRecommendations)</td></tr>
+                <tr><td>Рекомендації:</td><td>@Html.TextBoxFor(x => x.add.Recommended)</td></tr>
+            </table>
+            <input type="submit" value="Додати" />
+        }
+    </div>
+
+    <div id="Delete">
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        @using (Html.BeginForm("AppointmentsDelete", "Doctor", FormMethod.Post))
+        {
+            <table>
+                <tr><td>ID:</td><td>@Html.TextBoxFor(x => x.id)</td></tr>
+            </table>
+            <input type="submit" value="Видалити" />
+        }
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script>
+        var headerCells = document.getElementById("table").children[0].children[0].children;
+        for (var i = 0; i @Html.Raw("<")headerCells.length; i++) {
+            if (headerCells[i].getAttribute("data-field").includes("ID")) {
+                headerCells[i].setAttribute("data-filter-strict-search", true);
+            }
+        }
+    </script>
+
+    @if (ViewBag.Id != null)
+    {
+        <script>
+            var headerCells = document.getElementById("table").children[0].children[0].children;
+            var idHeader;
+            for (var i = 0; i @Html.Raw("<")headerCells.length; i++) {
+                if (headerCells[i].getAttribute("data-field") == "ID пацієнта") {
+                    idHeader = headerCells[i];
+                }
+            }
+            idHeader.setAttribute("data-filter-default", "@ViewBag.Id");
+        </script>
+    }
+    @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+    <script>
+        document.getElementById("ViewButton").onclick = () =>
+        {
+            document.getElementById("View").style.display = "block"
+            document.getElementById("Add").style.display = "none"
+            document.getElementById("Delete").style.display = "none"
+        }
+        document.getElementById("AddButton").onclick = () =>
+        {
+            document.getElementById("View").style.display = "none"
+            document.getElementById("Add").style.display = "block"
+            document.getElementById("Delete").style.display = "none"
+        }
+        document.getElementById("DeleteButton").onclick = () =>
+        {
+            document.getElementById("View").style.display = "none"
+            document.getElementById("Add").style.display = "none"
+            document.getElementById("Delete").style.display = "block"
+        }
+
+        @if (ViewBag.OpenTab == 0 || ViewBag.OpenTab == null)
+        {
+            <text>document.getElementById("ViewButton").click(); </text>
+        }
+        else if (ViewBag.OpenTab == 1)
+        {
+            <text>document.getElementById("AddButton").click(); </text>
+        }
+        else if (ViewBag.OpenTab == 2)
+        {
+            <text>document.getElementById("DeleteButton").click(); </text>
+        }
+        </script>
+}

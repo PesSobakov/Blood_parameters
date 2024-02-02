@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+@model Blood_parameters.Models.Database.Patient
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="Index">Пацієнт</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="Medications">Ліки</a>
+    </div>
+}
+
+    @section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+<div>
+    @if (ViewBag.FatalError != null)
+    {
+        <div>
+            @ViewBag.FatalError
+        </div>
+    }
+    else
+    {
+        <div>
+            @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+}

@@ -1,0 +1,70 @@
+﻿@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+    </div>
+}
+
+    <div>
+        <div>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="Info">Особиста інформація</a>
+        </div>
+        <br />
+
+        <div id="ManagePatients">
+            <div>
+                Управління профілем пацієнта
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="Patients">Пацієнти</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="MyPatients">Мої пацієнти</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="AddAnalysis">Додати аналіз</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="Parameters">Параметри</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="Medications">Ліки</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="MedicalConditions">Медичні показання</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="Appointments">Призначення</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="RegisterPatient">Зареєструвати пацієнта</a>
+            </div>
+        </div>
+
+        <br />
+
+        <div>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="GetSimillarDiagnoses">Пошук схожих діагнозів</a>
+        </div>
+
+        <br />
+
+        <div id="ClusteringHome">
+            <div>
+                Кластеризація
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="ClusteringGeneralBloodTest">Кластеризація за загальним аналізом крові</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="ClusteringBloodGlucoseAndCholesterol">Кластеризація за рівнем глюкози та холестерину</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="ClusteringBiochemicalBloodAnalysis">Кластеризація за біохімічним аналізом крові</a>
+            </div>
+            <div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="ClusteringBloodPressure">Кластеризація за артеріальним тиском</a>
+            </div>
+        </div>
+    </div>

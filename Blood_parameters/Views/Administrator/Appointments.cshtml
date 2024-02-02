@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Table " + ViewBag.Title;
+}
+@model Blood_parameters.Models.AppointmentsTable
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index">Адміністратор</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Index" asp-fragment="EditTables">Редагування таблиць БД</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="Appointments">Призначення</a>
+    </div>
+}
+
+    @section Styles {
+    @Html.Raw(MyHtmlHelper.BootstrapTableStyles(this.Context))
+}
+
+<div>
+    <div>
+        @if (ViewBag.Error != null)
+        {
+            <div>@ViewBag.Error</div>
+        }
+        @Html.ValidationSummary()
+
+        <table class="width100">
+            <tr>
+                <td>
+                    @using (Html.BeginForm("AppointmentsAdd", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Дата прийому:</td><td>@Html.TextBoxFor(x => x.add.TreatmentDate)</td></tr>
+                            <tr><td>Час прийому:</td><td>@Html.TextBoxFor(x => x.add.TreatmentTime)</td></tr>
+                            <tr><td>Код прийому:</td><td>@Html.TextBoxFor(x => x.add.RecordNumber)</td></tr>
+                            <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.add.PatientId)</td></tr>
+                            <tr><td>ID лікаря:</td><td>@Html.TextBoxFor(x => x.add.DoctorId)</td></tr>
+                            <tr><td>Дата початку лікування:</td><td>@Html.TextBoxFor(x => x.add.StartDate)</td></tr>
+                            <tr><td>Дата завершення лікування:</td><td>@Html.TextBoxFor(x => x.add.EndDate)</td></tr>
+                            <tr><td>Діагноз:</td><td>@Html.TextBoxFor(x => x.add.Diagnosis)</td></tr>
+                            <tr><td>Медичні засоби:</td><td>@Html.TextBoxFor(x => x.add.Treatment)</td></tr>
+                            <tr><td>Медичні показання:</td><td>@Html.TextBoxFor(x => x.add.TreatmentAndWorkRecommendations)</td></tr>
+                            <tr><td>Рекомендації:</td><td>@Html.TextBoxFor(x => x.add.Recommended)</td></tr>
+                        </table>
+                        <input type="submit" value="Додати" />
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("AppointmentsUpdate", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Де ID:</td><td>@Html.TextBoxFor(x => x.update.Id)</td></tr>
+                            <tr><td>Дата прийому:</td><td>@Html.TextBoxFor(x => x.update.TreatmentDate)</td></tr>
+                            <tr><td>Час прийому:</td><td>@Html.TextBoxFor(x => x.update.TreatmentTime)</td></tr>
+                            <tr><td>Код прийому:</td><td>@Html.TextBoxFor(x => x.update.RecordNumber)</td></tr>
+                            <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.update.PatientId)</td></tr>
+                            <tr><td>ID лікаря:</td><td>@Html.TextBoxFor(x => x.update.DoctorId)</td></tr>
+                            <tr><td>Дата початку лікування:</td><td>@Html.TextBoxFor(x => x.update.StartDate)</td></tr>
+                            <tr><td>Дата завершення лікування:</td><td>@Html.TextBoxFor(x => x.update.EndDate)</td></tr>
+                            <tr><td>Діагноз:</td><td>@Html.TextBoxFor(x => x.update.Diagnosis)</td></tr>
+                            <tr><td>Медичні засоби:</td><td>@Html.TextBoxFor(x => x.update.Treatment)</td></tr>
+                            <tr><td>Медичні показання:</td><td>@Html.TextBoxFor(x => x.update.TreatmentAndWorkRecommendations)</td></tr>
+                            <tr><td>Рекомендації:</td><td>@Html.TextBoxFor(x => x.update.Recommended)</td></tr>
+                        </table>
+                        <input type="submit" value="Оновити" />
+                    }
+                </td>
+            </tr>
+            <tr><td><br /></td></tr>
+            <tr>
+                <td>
+                    @using (Html.BeginForm("AppointmentsDelete", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>Видалити запис:</td><td>@Html.TextBoxFor(x => x.id) </td></tr>
+                        </table>
+                        <input type="submit" value="Видалити запис" />
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("AppointmentsFillUpdate", "Administrator", FormMethod.Post))
+                    {
+                        <table>
+                            <tr><td>ID:</td><td>@Html.TextBoxFor(x => x.fillUpdate)</td></tr>
+                        </table>
+                        <input type="submit" value="Заповнити поля оновлення" />
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    @Html.Raw(MyHtmlHelper.BootstrapTableBody(ViewBag.Head,ViewBag.Table))
+</div>
+
+
+@section Scripts {
+    @Html.Raw(MyHtmlHelper.BootstrapTableScripts(this.Context,ViewBag.Head))
+}

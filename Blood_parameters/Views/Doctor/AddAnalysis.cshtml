@@ -1,0 +1,207 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Title;
+}
+@model Blood_parameters.Models.Analysis
+
+@section Breadcrumbs {
+    <div class="flex-left breadcrumb">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index">Лікар</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="Index" asp-fragment="ManagePatients">Управління профілем пацієнта</a>
+        <span>></span>
+        <a class="nav-link" asp-area="" asp-controller="Doctor" asp-action="AddAnalysis">Додати аналіз</a>
+    </div>
+}
+
+    <div>
+    @if (ViewBag.FatalError != null)
+    {
+        <div>
+            @ViewBag.FatalError
+        </div>
+    }
+    else
+    {
+        <button id="GeneralBloodTestButton">Загальний аналіз крові</button>
+        <button id="BloodGlucoseButton">Глюкоза</button>
+        <button id="BloodCholesterolButton">Холестерин</button>
+        <button id="BiochemicalBloodAnalysisButton">Біохімічний аналіз крові</button>
+        <button id="BloodPressureButton">Артеріальний тиск</button>
+
+        <div id="GeneralBloodTest">
+            @if (ViewBag.Error != null)
+            {
+                <div>@ViewBag.Error</div>
+            }
+            @Html.ValidationSummary()
+
+            @using (Html.BeginForm("AddAnalysisGeneralBloodTest", "Doctor", FormMethod.Post))
+            {
+                <table>
+                    <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.patient_id)</td></tr>
+                    <tr><td>Дата проведення аналізу:</td><td>@Html.TextBoxFor(x => x.dateOfCheck)</td></tr>
+                    <tr><td>Гемоглобін:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.hemoglobin_count)</td></tr>
+                    <tr><td>Еритроцити:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.red_blood_cells_count)</td></tr>
+                    <tr><td>Лейкоцити:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.white_blood_cells_count)</td></tr>
+                    <tr><td>ШОЕ:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.erythrocyte_sedimentation_rate_count)</td></tr>
+                    <tr><td>Еозинофіли:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.eosinophil_count)</td></tr>
+                    <tr><td>Паличкоядерні:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.band_neutrophils_coun)</td></tr>
+                    <tr><td>Сегментоядерні:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.segmented_neutrophils_count)</td></tr>
+                    <tr><td>Лімфоцити:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.lymphocytes_count)</td></tr>
+                    <tr><td>Моноцити:</td><td>@Html.TextBoxFor(x => x.generalBloodTest.monocytes_count)</td></tr>
+                </table>
+                <input type="submit" value="Додати аналіз" />
+            }
+        </div>
+
+        <div id="BloodGlucose">
+            @if (ViewBag.Error != null)
+            {
+                <div>@ViewBag.Error</div>
+            }
+            @Html.ValidationSummary()
+
+            @using (Html.BeginForm("AddAnalysisBloodGlucose", "Doctor", FormMethod.Post))
+            {
+                <table>
+                    <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.patient_id)</td></tr>
+                    <tr><td>Дата проведення аналізу:</td><td>@Html.TextBoxFor(x => x.dateOfCheck)</td></tr>
+                    <tr><td>Глюкоза:</td><td>@Html.TextBoxFor(x => x.bloodGlucose.BloodGlucoseLevel)</td></tr>
+                </table>
+                <input type="submit" value="Додати аналіз" />
+            }
+        </div>
+
+        <div id="BloodCholesterol">
+            @if (ViewBag.Error != null)
+            {
+                <div>@ViewBag.Error</div>
+            }
+            @Html.ValidationSummary()
+
+            @using (Html.BeginForm("AddAnalysisBloodCholesterol", "Doctor", FormMethod.Post))
+            {
+                <table>
+                    <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.patient_id)</td></tr>
+                    <tr><td>Дата проведення аналізу:</td><td>@Html.TextBoxFor(x => x.dateOfCheck)</td></tr>
+                    <tr><td>Холестерин:</td><td>@Html.TextBoxFor(x => x.bloodCholesterol.BloodCholesterolLevel)</td></tr>
+                </table>
+                <input type="submit" value="Додати аналіз" />
+            }
+        </div>
+
+        <div id="BiochemicalBloodAnalysis">
+            @if (ViewBag.Error != null)
+            {
+                <div>@ViewBag.Error</div>
+            }
+            @Html.ValidationSummary()
+
+            @using (Html.BeginForm("AddAnalysisBiochemicalBloodAnalysis", "Doctor", FormMethod.Post))
+            {
+                <table>
+                    <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.patient_id)</td></tr>
+                    <tr><td>Дата проведення аналізу:</td><td>@Html.TextBoxFor(x => x.dateOfCheck)</td></tr>
+                    <tr><td>Загальний білірубін:</td><td>@Html.TextBoxFor(x => x.biochemicalBloodAnalysis.TotalBilirubin)</td></tr>
+                    <tr><td>Прямий білірубін:</td><td>@Html.TextBoxFor(x => x.biochemicalBloodAnalysis.DirectBilirubin)</td></tr>
+                    <tr><td>Непрямий білірубін:</td><td>@Html.TextBoxFor(x => x.biochemicalBloodAnalysis.IndirectBilirubin)</td></tr>
+                    <tr><td>АЛТ:</td><td>@Html.TextBoxFor(x => x.biochemicalBloodAnalysis.AlanineAminotransferase)</td></tr>
+                    <tr><td>АСТ:</td><td>@Html.TextBoxFor(x => x.biochemicalBloodAnalysis.AspartateAminotransferase)</td></tr>
+                    <tr><td>Креатинін:</td><td>@Html.TextBoxFor(x => x.biochemicalBloodAnalysis.CreatinineLevel)</td></tr>
+                    <tr><td>Сечовина:</td><td>@Html.TextBoxFor(x => x.biochemicalBloodAnalysis.UrineLevel)</td></tr>
+                </table>
+                <input type="submit" value="Додати аналіз" />
+            }
+        </div>
+
+        <div id="BloodPressure">
+            @if (ViewBag.Error != null)
+            {
+                <div>@ViewBag.Error</div>
+            }
+            @Html.ValidationSummary()
+
+            @using (Html.BeginForm("AddAnalysisBloodPressure", "Doctor", FormMethod.Post))
+            {
+                <table>
+                    <tr><td>ID пацієнта:</td><td>@Html.TextBoxFor(x => x.patient_id)</td></tr>
+                    <tr><td>Дата проведення аналізу:</td><td>@Html.TextBoxFor(x => x.dateOfCheck)</td></tr>
+                    <tr><td>Систолічний тиск:</td><td>@Html.TextBoxFor(x => x.bloodPressure.SystolicPressure)</td></tr>
+                    <tr><td>Діастолічний тиск:</td><td>@Html.TextBoxFor(x => x.bloodPressure.DiastolicPressure)</td></tr>
+                    <tr><td>Частота пульсу:</td><td>@Html.TextBoxFor(x => x.bloodPressure.PulseRate)</td></tr>
+                </table>
+                <input type="submit" value="Додати аналіз" />
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("GeneralBloodTestButton").onclick = () =>
+        {
+            document.getElementById("GeneralBloodTest").style.display = "block"
+            document.getElementById("BloodGlucose").style.display = "none"
+            document.getElementById("BloodCholesterol").style.display = "none"
+            document.getElementById("BiochemicalBloodAnalysis").style.display = "none"
+            document.getElementById("BloodPressure").style.display = "none"
+        }
+        document.getElementById("BloodGlucoseButton").onclick = () =>
+        {
+            document.getElementById("GeneralBloodTest").style.display = "none"
+            document.getElementById("BloodGlucose").style.display = "block"
+            document.getElementById("BloodCholesterol").style.display = "none"
+            document.getElementById("BiochemicalBloodAnalysis").style.display = "none"
+            document.getElementById("BloodPressure").style.display = "none"
+        }
+        document.getElementById("BloodCholesterolButton").onclick = () =>
+        {
+            document.getElementById("GeneralBloodTest").style.display = "none"
+            document.getElementById("BloodGlucose").style.display = "none"
+            document.getElementById("BloodCholesterol").style.display = "block"
+            document.getElementById("BiochemicalBloodAnalysis").style.display = "none"
+            document.getElementById("BloodPressure").style.display = "none"
+        }
+        document.getElementById("BiochemicalBloodAnalysisButton").onclick = () =>
+        {
+            document.getElementById("GeneralBloodTest").style.display = "none"
+            document.getElementById("BloodGlucose").style.display = "none"
+            document.getElementById("BloodCholesterol").style.display = "none"
+            document.getElementById("BiochemicalBloodAnalysis").style.display = "block"
+            document.getElementById("BloodPressure").style.display = "none"
+        }
+        document.getElementById("BloodPressureButton").onclick = () =>
+        {
+            document.getElementById("GeneralBloodTest").style.display = "none"
+            document.getElementById("BloodGlucose").style.display = "none"
+            document.getElementById("BloodCholesterol").style.display = "none"
+            document.getElementById("BiochemicalBloodAnalysis").style.display = "none"
+            document.getElementById("BloodPressure").style.display = "block"
+        }
+
+        @if (ViewBag.OpenTab == 0 || ViewBag.OpenTab == null)
+        {
+            <text>document.getElementById("GeneralBloodTestButton").click(); </text>
+        }
+        else if (ViewBag.OpenTab == 1)
+        {
+            <text>document.getElementById("BloodGlucoseButton").click(); </text>
+        }
+        else if (ViewBag.OpenTab == 2)
+        {
+            <text>document.getElementById("BloodCholesterolButton").click(); </text>
+        }
+        else if (ViewBag.OpenTab == 3)
+        {
+            <text>document.getElementById("BiochemicalBloodAnalysisButton").click(); </text>
+        }
+        else if (ViewBag.OpenTab == 4)
+        {
+            <text>document.getElementById("BloodPressureButton").click(); </text>
+        }
+
+    </script>
+
+}
